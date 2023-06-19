@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Books</title>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+
+        const update = (id) => {
+
+            window.open('http://localhost:3333/book/update/' + id);
+
+        };
+
+        const deleteBook = async (id) => {
+
+            await $.ajax({
+
+                url: `http://localhost:3333/book/delete/${id}`,
+
+                type: "DELETE",
+
+                dataType: "json",
+
+                contentType: "application/json",
+
+                success: function (result) {
+
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                    console.log(xhr.status);
+
+                    console.log(thrownError);
+
+                }
+
+            });
+
+            location.reload();
+
+        };
+
+    </script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light justify-content-between">
+    <a class="navbar-brand">Navbar</a>
+    <form role="search" action="/book/list" method="GET">
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <span id="srch-category">Find By</span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="mnu-category">
+                    <li> <input type="text" id="keyword" name="keyword" placeholder="keyword"></li>
+                    <li> <input type="text" id="author" name="author" placeholder="author"></li>
+                </ul>
+            </div>
+            <span class="input-group-btn">
+            <button id="btn-search" type="submit" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+        </div>
+    </form>
+<!--    <form class="form-inline" action="/book/list" method="GET">-->
+<!--        -->
+<!--        <input class="form-control mr-sm-2" type="text" id="keyword" name="keyword" placeholder="Search" aria-label="Search">-->
+<!--        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--    </form>-->
+</nav>
+<div class="container">
+    <div class="card-group">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <script type="text/javascript">
+
+            const update = (id) => {
+
+                window.open('http://localhost:3333/book/update/' + id);
+
+            };
+
+            const deleteBook = async (id) => {
+
+                await $.ajax({
+
+                    url: `http://localhost:3333/book/delete/${id}`,
+
+                    type: "DELETE",
+
+                    dataType: "json",
+
+                    contentType: "application/json",
+
+                    success: function (result) {
+
+                    },
+
+                    error: function (xhr, ajaxOptions, thrownError) {
+
+                        console.log(xhr.status);
+
+                        console.log(thrownError);
+
+                    }
+
+                });
+
+                location.reload();
+
+            };
+
+        </script>
+
+
+        <% for(const book of books) { %>
+        <div class="card">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+
+                <h3>
+
+                    Title: <%= book.title %>
+
+                </h3>
+
+                <p>
+
+                    Description: <%= book.description %>
+
+                </p>
+
+                <p>
+                    <%if (book.author) {%>
+                    Author: <%= book.author.name %>
+                    <% } else { %>
+                    Author: <%=null%>
+                        <%}%>
+
+                </p>
+                <p>
+
+                    Keyword: <%= book.keywords[0].keyword %>
+
+                </p>
+
+                <button onclick="update('<%= book.id %>')">Update</button>
+
+                <button onclick="deleteBook('<%= book.id %>')">Delete</button>
+
+                </br>
+
+            </div>
+        </div>
+            <% } %>
+
+</div>
+</div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="/book/list?page=<% if(currentPage > 1) { %>
+<%= currentPage - 1 %>
+<% } else { %>
+#
+ <% } %>
+" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <% for (var i = 1; i <= totalPages ; i++) { %>
+
+        <li class="page-item"><a class="page-link" href="/book/list?page=<%=i%>"><%=i%></a></li>
+        <%}%>
+
+        <li class="page-item">
+            <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(e){
+        $('#mnu-category').find('a').click(function(e) {
+            e.preventDefault();
+            var cat = $(this).text();
+            $('#srch-category').text(cat);
+            $('#txt-category').val(cat);
+        });
+    });
+</script>
+</body>
+</html>
