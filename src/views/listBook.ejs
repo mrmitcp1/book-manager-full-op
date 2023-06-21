@@ -54,7 +54,19 @@
 </head>
 <body>
 <nav class="navbar navbar-light bg-light justify-content-between">
-    <a class="navbar-brand">Navbar</a>
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= users.username%>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/book/register">Register</a>
+            <a class="dropdown-item" href="/book/logout">Logout</a>
+        </div>
+    </div>
+    <% if (locals.userLogin.role === 'admin') {%>
+    <a href="/book/create" class="btn btn-danger">CreateBook</a>
+    <% } %>
+
     <form role="search" action="/book/list" method="GET">
         <div class="input-group">
             <div class="input-group-btn">
@@ -154,11 +166,11 @@
                     Keyword: <%= book.keywords[0].keyword %>
 
                 </p>
-
+                <% if (locals.userLogin.role === 'admin') {%>
                 <button onclick="update('<%= book.id %>')">Update</button>
 
                 <button onclick="deleteBook('<%= book.id %>')">Delete</button>
-
+                <% } %>
                 </br>
 
             </div>

@@ -100,7 +100,8 @@ class BookControllter {
             const books = await bookSchema_1.Book.find(query).limit(limit).skip(offset).populate({
                 path: "author", select: "name"
             });
-            res.render('listBook', { books: books, totalPages: totalPages, currentPage: currentPage });
+            const users = req.user;
+            res.render('listBook', { books: books, totalPages: totalPages, currentPage: currentPage, users: users });
         }
         catch (err) {
             res.render('error');

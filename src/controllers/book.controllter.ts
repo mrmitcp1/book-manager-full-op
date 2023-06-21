@@ -3,7 +3,9 @@ const bookRoutes = Router();
 import {Book} from "../shemas/bookSchema";
 import multer from "multer";
 import {Author} from "../shemas/author.model";
+import {UserModel} from "../shemas/user.model"
 const upload = multer();
+
 
 class BookControllter {
     static async createBook(req,res){
@@ -93,7 +95,8 @@ class BookControllter {
             const books = await Book.find(query).limit(limit).skip(offset).populate({
                 path:"author", select: "name"
             });
-            res.render('listBook',{books:books,totalPages:totalPages,currentPage: currentPage})
+            const users = req.user
+            res.render('listBook',{books:books,totalPages:totalPages,currentPage: currentPage,users:users})
         }catch (err){
             res.render('error')
         }
