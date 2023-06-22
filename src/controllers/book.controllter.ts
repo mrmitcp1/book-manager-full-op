@@ -20,7 +20,9 @@ class BookControllter {
             })
             bookNew.keywords.push({keyword: req.body.keyword});
             const p1 = authorNew.save()
+            console.log(bookNew)
             const p2 = await bookNew.save()
+            console.log(req.body.keyword)
             let [author,book] = await Promise.all([p1,p2])
             if (book){
                 res.redirect("/book/list")
